@@ -1,0 +1,8 @@
+*.pyc
+*min.css
+*min.js
+/backend/arkandha/settings/local.py
+
+# Ignore jsonlock
+/frontend/package-lock.json
+node_modules/

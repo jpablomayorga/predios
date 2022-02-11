@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+  db_postgres:
+    image: postgres:11.5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  django_app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - static:/code/static
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db_postgres
+
+  frontend:
+    restart: always
+    build:  
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    image: frontend_image
+    depends_on:
+      - django_app
+    volumes:
+      - ./simple-vuejs-app/nginx:/etc/nginx/conf.d
+    ports:
+      - 8081:80
+    
+  nginx:
+    image: nginx:1.13
+    ports:
+      # puerto maquina fisica: puerto docker
+      - 8080:80
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - static:/code/static
+    depends_on:
+      - frontend
+
+volumes:
+  .:
+  postgres_data:
+  static:
