@@ -30,8 +30,18 @@ django_app  | 8000 |  Backend en Django, Visite `http://localhost:8000` en su na
 db_postgres | 5432 |  Sevicio bases de datos postgres
 
 
-## Volumes
+### Comentarios
 
-Volume          | Description
-----------------|-------------
-`/app`          | The location of the DocPad application root.
+Formateo del codigo:
+
+    Para seguir la indicaciones del PEP8 se instalo el paquete flake8
+
+Patrones de diseño:
+    se dividiron los requerimientos de acuerdo a la fase de desarrollo
+    se dividiron los settings de acuerdo a la fase de desarrollo
+    los archivos de la logica de la API se encuentran en una carpeta separada dentro de la misma aplicacion
+    se uso un ModelMixin para fecha de creación y de modificación para los dos modelos, este se encuentra en la aplicacion core 
+
+Test Driven Development, para ejecutar pruebas unitarias de la app properties:
+
+    docker-compose run django_app python backend/manage.py test properties --settings=arkandha.settings.production
